@@ -8,6 +8,10 @@ import WarningScreen from '../screens/WarningScreen';
 import WarningAddScreen from '../screens/WarningAddScreen';
 import ReservationScreen from '../screens/ReservationScreen';
 import ReservationAddScreen from '../screens/ReservationAddScreen';
+import ReservationMyScreen from '../screens/ReservationMyScreen';
+import FoundAndLostScreen from '../screens/FoundAndLostScreen';
+import FoundAndLostAddScreen from '../screens/FoundAndLostAddScreen';
+import UnitScreen from '../screens/UnitScreen';
 import DrawerCustom from '../components/DrawerCustom';
 
 const Drawer = createDrawerNavigator();
@@ -32,9 +36,19 @@ export default () => {
       <Drawer.Screen name="WarningAddScreen" component={WarningAddScreen} />
       <Drawer.Screen name="ReservationScreen" component={ReservationScreen} />
       <Drawer.Screen
+        name="ReservationMyScreen"
+        component={ReservationMyScreen}
+      />
+      <Drawer.Screen
         name="ReservationAddScreen"
         component={ReservationAddScreen}
       />
+      <Drawer.Screen name="FoundAndLostScreen" component={FoundAndLostScreen} />
+      <Drawer.Screen
+        name="FoundAndLostAddScreen"
+        component={FoundAndLostAddScreen}
+      />
+      <Drawer.Screen name="UnitScreen" component={UnitScreen} />
     </Drawer.Navigator>
   );
 };

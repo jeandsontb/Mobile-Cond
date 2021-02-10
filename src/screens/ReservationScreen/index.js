@@ -39,7 +39,8 @@ export default () => {
   return (
     <S.Container>
       <S.Scroller contentContainerStyle={{paddingBottom: 40}}>
-        <S.ButtonArea onPress={null}>
+        <S.ButtonArea
+          onPress={() => navigation.navigate('ReservationMyScreen')}>
           <S.ButtonText>Minhas Reservas</S.ButtonText>
         </S.ButtonArea>
 

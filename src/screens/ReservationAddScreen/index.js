@@ -57,6 +57,7 @@ export default () => {
 
       setDisableDates(dateList);
     } else {
+      // eslint-disable-next-line no-alert
       alert(result.error);
     }
   };

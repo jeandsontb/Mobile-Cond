@@ -1,0 +1,93 @@
+import React, {useState} from 'react';
+import styled from 'styled-components/native';
+
+import api from '../services/api';
+
+const Box = styled.View`
+  padding: 20px;
+`;
+const Title = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+const Label = styled.Text`
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 10px;
+`;
+const Field = styled.TextInput`
+  background-color: #fff;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 5px;
+  color: #000;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 15px;
+`;
+const ButtonArea = styled.View`
+  margin-top: 20px;
+  flex-direction: row;
+  justify-content: space-around;
+`;
+const SaveButton = styled.Button`
+  flex: 1;
+`;
+const CancelButton = styled.Button`
+  flex: 1;
+`;
+
+export default ({refreshFunction, setShowModal}) => {
+  const [name, setName] = useState('');
+  const [race, setRace] = useState('');
+
+  const handleAdd = async () => {
+    if (name && race) {
+      const result = await api.addUnitItem('pet', {
+        name,
+        race,
+      });
+
+      if (result.error === '') {
+        refreshFunction();
+        setShowModal(false);
+      } else {
+        // eslint-disable-next-line no-alert
+        alert(result.error);
+      }
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('Preencha os campos');
+    }
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <Box>
+      <Title>Adicionar novo pet</Title>
+
+      <Label>Nome Completo:</Label>
+      <Field
+        placeholder="Digite o nome do pet"
+        value={name}
+        onChangeText={(e) => setName(e)}
+      />
+
+      <Label>Raça:</Label>
+      <Field
+        placeholder="Digite a raça do pet"
+        value={race}
+        onChangeText={(e) => setRace(e)}
+      />
+
+      <ButtonArea>
+        <SaveButton title="Adicionar" onPress={handleAdd} />
+        <CancelButton color="#FF0000" title="Cancelar" onPress={handleCancel} />
+      </ButtonArea>
+    </Box>
+  );
+};

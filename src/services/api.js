@@ -167,4 +167,93 @@ export default {
     );
     return json;
   },
+  getMyReservations: async () => {
+    let token = await AsyncStorage.getItem('token');
+    let property = await AsyncStorage.getItem('property');
+    property = JSON.parse(property);
+    let json = await request(
+      'get',
+      '/myreservations',
+      {property: property.id},
+      token,
+    );
+    return json;
+  },
+  removeReservation: async (id) => {
+    let token = await AsyncStorage.getItem('token');
+    let json = await request('delete', `/myreservations/${id}`, {}, token);
+    return json;
+  },
+  getFoundAndLost: async () => {
+    let token = await AsyncStorage.getItem('token');
+    let json = await request('get', '/foundandlost', {}, token);
+    return json;
+  },
+  setRecovered: async (id) => {
+    let token = await AsyncStorage.getItem('token');
+    let json = await request(
+      'put',
+      `/foundandlost/${id}`,
+      {
+        status: 'recovered',
+      },
+      token,
+    );
+    return json;
+  },
+  addLostItem: async (photo, description, where) => {
+    let token = await AsyncStorage.getItem('token');
+    let formData = new FormData();
+    formData.append('description', description);
+    formData.append('where', where);
+    formData.append('photo', {
+      uri: photo.uri,
+      type: photo.type,
+      name: photo.fileName,
+    });
+
+    let req = await fetch(`${baseUrl}/foundandlost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    let json = await req.json();
+    return json;
+  },
+  getUnitInfo: async () => {
+    let token = await AsyncStorage.getItem('token');
+    let property = await AsyncStorage.getItem('property');
+    property = JSON.parse(property);
+    let json = await request('get', `/unit/${property.id}`, {}, token);
+    return json;
+  },
+  removeUnitItem: async (type, id) => {
+    let token = await AsyncStorage.getItem('token');
+    let property = await AsyncStorage.getItem('property');
+    property = JSON.parse(property);
+    let json = await request(
+      'post',
+      `/unit/${property.id}/remove${type}`,
+      {
+        id,
+      },
+      token,
+    );
+    return json;
+  },
+  addUnitItem: async (type, body) => {
+    let token = await AsyncStorage.getItem('token');
+    let property = await AsyncStorage.getItem('property');
+    property = JSON.parse(property);
+    let json = await request(
+      'post',
+      `/unit/${property.id}/add${type}`,
+      body,
+      token,
+    );
+    return json;
+  },
 };
